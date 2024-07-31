@@ -16,10 +16,10 @@ private:
 public:
     GAME(sf::Texture* texture,sf::Vector2u imagecount,float switchtime);
     void r();
-    
+    unsigned int row=0;
     void inputs(bool up,sf::Keyboard::Key key);
     void render();
-    void update(unsigned int row,float dt);
+    void update(unsigned int &row,float dt,bool faceright,bool faceleft);
     void draw(){
         window.draw(player);
     };
