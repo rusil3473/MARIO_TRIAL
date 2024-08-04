@@ -1,4 +1,6 @@
 #include <SFML/Graphics.hpp>
+// #include "camera.hpp"
+
 class GAME
 {
 private:
@@ -6,22 +8,24 @@ private:
     sf::RectangleShape player;
     sf::IntRect uvrect;
     sf::Vector2u current_img;
+
 private:
     sf::Vector2u imagecount;
-    bool up,down,right,left;
-    void events();
+    bool up, down, right, left;
     float switchtime;
     float totaltime;
 
 public:
-    GAME(sf::Texture* texture,sf::Vector2u imagecount,float switchtime);
+    float speed=48;
+
+    GAME(sf::Texture *texture, sf::Vector2u imagecount, float switchtime);
     void r();
-    unsigned int row=0;
-    void inputs(bool up,sf::Keyboard::Key key);
+    unsigned int row = 2;
+    void inputs(float dt);
     void render();
-    void update(unsigned int &row,float dt,bool faceright,bool faceleft);
-    void draw(){
+    void update(unsigned int &row, float dt, bool faceright, bool faceleft);
+    void draw()
+    {
         window.draw(player);
     };
 };
-
