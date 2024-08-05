@@ -1,20 +1,22 @@
 #include "game.hpp"
 
-GAME::GAME(sf::Texture *texture, sf::Vector2u imagecount, float switchtime) : window(sf::VideoMode(640, 480), "Mario")
+GAME::GAME(sf::Texture *texture, sf::Texture *brick_t, sf::Vector2u imagecount, float switchtime) : window(sf::VideoMode(640, 480), "Mario"), g(981), vv(0)
 {
-     texture->setRepeated(true);
+    texture->setRepeated(true);
     this->imagecount = imagecount;
     this->switchtime = switchtime;
 
     player.setSize(sf::Vector2f(200, 200));
-    // player.setOrigin(sf::Vector2f(100,100));
-    player.setPosition(sf::Vector2f(320, 240));
+    // player.setOrigin(sf::Vector2f(100,100));./t
+    player.setPosition(sf::Vector2f(480, 250));
     player.setTexture(texture);
+
+    brick.setSize(sf::Vector2f(30.f, 30.f));
+
+    brick.setTexture(brick_t);
 
     uvrect.width = texture->getSize().x / imagecount.x;
     uvrect.height = texture->getSize().y / imagecount.y;
-
-    
 };
 
 void GAME::r()
@@ -40,20 +42,40 @@ void GAME::r()
 
 void GAME::inputs(float dt)
 {
-    sf::Vector2f movement(0.f,0.f);
+    sf::Vector2f movement(0.f, 0.f);
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
     {
         right = true;
         left = false;
-        movement.x+=speed*dt;
+        movement.x += speed * dt;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
     {
         left = true;
         right = false;
-        movement.x-=speed*dt;
+        movement.x -= speed * dt;
     }
-    
+
+    if (player.getPosition().y < 257)
+    {
+
+        vv += g * dt;
+        movement.y += vv * dt;
+    }
+    else
+    {
+        movement.y = 0;
+        canJump=true;
+    }
+    if (canJump)
+    {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Y))
+        {
+            movement.y -= speed ;
+            canJump = false;
+            vv = 0;
+        }
+    }
     player.move(movement);
 }
 
@@ -61,6 +83,12 @@ void GAME::render()
 {
     window.clear(sf::Color::Blue);
     window.draw(player);
+    for (size_t i = 0; i < 640 / 16; i++)
+    {
+        brick.setPosition(sf::Vector2f(i * 16, 450));
+        window.draw(brick);
+    }
+
     window.display();
 }
 
@@ -77,10 +105,10 @@ void GAME::update(unsigned int &row, float dt, bool faceright, bool faceleft)
         row = 1;
         left = false;
     }
-    else{
-        row=2;
+    else
+    {
+        row = 2;
     }
-    
 
     if (row == 2)
     {
@@ -108,4 +136,3 @@ void GAME::update(unsigned int &row, float dt, bool faceright, bool faceleft)
     uvrect.top = uvrect.height * current_img.y;
     player.setTextureRect(uvrect);
 }
-

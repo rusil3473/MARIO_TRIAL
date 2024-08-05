@@ -6,6 +6,7 @@ class GAME
 private:
     sf::RenderWindow window;
     sf::RectangleShape player;
+    sf::RectangleShape brick;
     sf::IntRect uvrect;
     sf::Vector2u current_img;
 
@@ -14,11 +15,14 @@ private:
     bool up, down, right, left;
     float switchtime;
     float totaltime;
+    bool canJump=true;
+    
 
 public:
     float speed=48;
-
-    GAME(sf::Texture *texture, sf::Vector2u imagecount, float switchtime);
+    float vv;
+    float g;
+    GAME(sf::Texture *texture,sf::Texture *brick_t, sf::Vector2u imagecount, float switchtime);
     void r();
     unsigned int row = 2;
     void inputs(float dt);
