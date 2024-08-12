@@ -1,6 +1,6 @@
 #include <SFML/Graphics.hpp>
 // #include "camera.hpp"
-
+#include "map.hpp"
 class GAME
 {
 private:
@@ -15,14 +15,16 @@ private:
     bool up, down, right, left;
     float switchtime;
     float totaltime;
-    bool canJump=true;
+    bool canJump = true;
     
 
 public:
-    float speed=48;
+    
+    
+    float speed = 48;
     float vv;
     float g;
-    GAME(sf::Texture *texture,sf::Texture *brick_t, sf::Vector2u imagecount, float switchtime);
+    GAME(sf::Texture *texture, sf::Texture *brick_t, sf::Vector2u imagecount, float switchtime);
     void r();
     unsigned int row = 2;
     void inputs(float dt);

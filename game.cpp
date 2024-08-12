@@ -6,9 +6,9 @@ GAME::GAME(sf::Texture *texture, sf::Texture *brick_t, sf::Vector2u imagecount, 
     this->imagecount = imagecount;
     this->switchtime = switchtime;
 
-    player.setSize(sf::Vector2f(200, 200));
+    player.setSize(sf::Vector2f(60, 60));
     // player.setOrigin(sf::Vector2f(100,100));./t
-    player.setPosition(sf::Vector2f(480, 250));
+    player.setPosition(sf::Vector2f(120, 250));
     player.setTexture(texture);
 
     brick.setSize(sf::Vector2f(30.f, 30.f));
@@ -55,27 +55,37 @@ void GAME::inputs(float dt)
         right = false;
         movement.x -= speed * dt;
     }
+    if (player.getGlobalBounds().intersects(brick.getGlobalBounds()))
+    {
+        movement.y = 0;
+        canJump = true;
+    }
 
-    if (player.getPosition().y < 257)
+    else
     {
 
         vv += g * dt;
         movement.y += vv * dt;
     }
-    else
-    {
-        movement.y = 0;
-        canJump=true;
-    }
+    /*  else
+      {
+          movement.y = 0;
+          canJump=true;
+      }*/
     if (canJump)
     {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Y))
         {
-            movement.y -= speed ;
+            movement.y -= speed;
             canJump = false;
             vv = 0;
         }
     }
+    if (player.getPosition().y > 480)
+    {
+        window.close();
+    }
+
     player.move(movement);
 }
 
@@ -83,11 +93,14 @@ void GAME::render()
 {
     window.clear(sf::Color::Blue);
     window.draw(player);
-    for (size_t i = 0; i < 640 / 16; i++)
-    {
-        brick.setPosition(sf::Vector2f(i * 16, 450));
-        window.draw(brick);
-    }
+    /* for (size_t i = 0,j=0; i < 200 /16 && j<480/16; i++)
+     {
+
+         brick.setPosition(sf::Vector2f(i * brick.getSize().x, 450));
+         window.draw(brick);
+     }*/
+    brick.setPosition(sf::Vector2f(120, 350));
+    window.draw(brick);
 
     window.display();
 }
@@ -134,5 +147,5 @@ void GAME::update(unsigned int &row, float dt, bool faceright, bool faceleft)
 
     uvrect.left = uvrect.width * current_img.x;
     uvrect.top = uvrect.height * current_img.y;
-    player.setTextureRect(uvrect);
+    //  player.setTextureRect(uvrect);
 }
