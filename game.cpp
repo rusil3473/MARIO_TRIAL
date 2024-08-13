@@ -15,6 +15,14 @@ GAME::GAME(sf::Texture *texture, sf::Texture *brick_t, sf::Vector2u imagecount, 
 
     brick.setTexture(brick_t);
 
+    for (size_t i = 0; i < 640/30; i++)
+    {
+        brickBase[i].setTexture(brick_t);
+        brickBase[i].setSize(sf::Vector2f(30.f,30.f));
+        brickBase[i].setPosition(sf::Vector2f(i*30,450));
+    }
+    
+
     uvrect.width = texture->getSize().x / imagecount.x;
     uvrect.height = texture->getSize().y / imagecount.y;
 };
@@ -55,11 +63,17 @@ void GAME::inputs(float dt)
         right = false;
         movement.x -= speed * dt;
     }
-    if (player.getGlobalBounds().intersects(brick.getGlobalBounds()))
+    if ( player.getGlobalBounds().intersects(brick.getGlobalBounds()) ||why_god_why_itis_always_me())
     {
         movement.y = 0;
         canJump = true;
     }
+    // else if (player.getGlobalBounds().intersects(brick.getGlobalBounds()))
+    // {
+    //    movement.y = 0;
+    //     canJump = false;
+    // }
+    
 
     else
     {
@@ -101,6 +115,12 @@ void GAME::render()
      }*/
     brick.setPosition(sf::Vector2f(120, 350));
     window.draw(brick);
+ for (size_t i = 0; i < 640/30; i++)
+ {
+    
+    window.draw(brickBase[i]);
+ }
+ 
 
     window.display();
 }
@@ -148,4 +168,21 @@ void GAME::update(unsigned int &row, float dt, bool faceright, bool faceleft)
     uvrect.left = uvrect.width * current_img.x;
     uvrect.top = uvrect.height * current_img.y;
     //  player.setTextureRect(uvrect);
+}
+
+bool GAME::why_god_why_itis_always_me()
+{
+    bool c=false;
+    for (size_t i = 0; i < 21; i++)
+    {
+        if (player.getGlobalBounds().intersects(brickBase[i].getGlobalBounds()))
+        {
+            c=true;
+            break;
+        }
+        
+        
+    }
+    
+    return c;
 }
