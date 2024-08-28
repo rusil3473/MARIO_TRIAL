@@ -49,4 +49,6 @@ int collsion::check_rr(sf::RectangleShape &r1, sf::RectangleShape &r2)
 
     else
         return 0;
+
+ 
 }

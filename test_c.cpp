@@ -47,7 +47,7 @@ int main()
         case 1:
             canmove_x = true;
             canmove_y = false;
-            std::cout << "fuck x" << std::endl;
+            std::cout << "fuck x soham" << std::endl;
             break;
         case 2:
             canmove_x = false;
