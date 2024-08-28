@@ -10,10 +10,12 @@ GAME::GAME(sf::Texture *texture, sf::Texture *brick_t, sf::Vector2u imagecount, 
     // player.setOrigin(sf::Vector2f(100,100));./t
     player.setPosition(sf::Vector2f(120, 250));
     player.setTexture(texture);
+    player.setOrigin(sf::Vector2f(30,30));
 
     brick.setSize(sf::Vector2f(30.f, 30.f));
-
+    
     brick.setTexture(brick_t);
+    brick.setOrigin(sf::Vector2f(15,15));
 
     for (size_t i = 0; i < 640/30; i++)
     {
@@ -88,19 +90,26 @@ void GAME::inputs(float dt)
       }*/
     if (canJump)
     {
+        
+     
+        
+
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Y))
         {
-            movement.y -= speed;
+            movement.y -= speed;            
             canJump = false;
             vv = 0;
+            
         }
     }
     if (player.getPosition().y > 480)
     {
         window.close();
     }
-
+     
     player.move(movement);
+    
+    
 }
 
 void GAME::render()
@@ -185,4 +194,16 @@ bool GAME::why_god_why_itis_always_me()
     }
     
     return c;
+}
+
+bool GAME::check_for_sbrick()
+{
+    if (player.getGlobalBounds().intersects(brick.getGlobalBounds()))
+    {
+        return false;
+    }
+    
+
+
+    return true;
 }

@@ -34,5 +34,6 @@ public:
         window.draw(player);
     };
     bool why_god_why_itis_always_me();  
+    bool check_for_sbrick();
 };
 
